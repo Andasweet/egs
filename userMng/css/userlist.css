@@ -1,0 +1,116 @@
+html,body {
+    margin: 0;
+    padding: 0;
+    font-family: microsoft yahei;
+    background-color: #ccc;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background-color: pink;
+    text-indent: 20px;
+}
+
+.main {
+    background-color: #fff;
+    width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.toolbar {
+    width: 950px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #AE81FF;
+    padding: 0px 5px;
+
+}
+
+tr,th,td {
+    border: 1px solid #AE81FF;
+}
+table {
+    border-collapse: collapse;
+    margin-top: 10px;
+    width: 100%;
+}
+
+table thead {
+    text-align: left;
+    text-indent: 10px;
+}
+
+table tbody {
+    text-align: left;
+    text-indent: 10px;
+}
+
+.masker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.masker-wp {
+    display: none;
+}
+
+.dialog {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -150px;
+    background-color: #fff;
+}
+
+.dialog>p {
+    background-color: #AE81FF;
+    height: 30px;
+    line-height: 30px;
+    margin: 0;
+    text-indent: 10px;
+}
+
+.dialog>p>i {
+    font-style: normal;
+    float: right;
+    margin-right: 10px;
+    font-size: 22px;
+    color: red;
+    cursor: pointer;
+}
+
+.dialog .bot {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.btn {   
+    border-radius: 3px;
+    background-color: #ccc;    
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #eee;
+}
+
+.dialog .dia-body {
+    margin: 10px;
+}
+
+div.search {
+    display: inline-block;
+    float: right;
+}

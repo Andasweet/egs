@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>用户注册</h1>
+
+    <a href="server/list.php">用户列表</a>
+    <hr>
+    <form action="server/reg.php">
+        <div>
+            <label>姓名：<input type="text" name="name"></label>
+        </div>
+        <div>
+            <label>年龄：<input type="text" name="age"></label>
+        </div>
+        <div>
+            <label>手机：<input type="text" name="mobile"></label>
+        </div>
+        <div>
+            <label>性别：
+                <input type="radio" name="gender" value="男">男
+                <input type="radio" name="gender" value="女">女
+            </label>
+        </div>
+        <div>
+            <label>地址：
+                <textarea name="address"></textarea>
+            </label>
+        </div>
+        <div>
+            <label>爱好：
+                <input type="checkbox" name="hobbies">唱歌
+                <input type="checkbox" name="hobbies">跳舞
+                <input type="checkbox" name="hobbies">旅游
+            </label>
+        </div>
+        <div>
+            <label>
+                学历：
+                <select name="edu">
+                    <option value="0">请选择</option>
+                    <option value="1">专科</option>
+                    <option value="2">本科</option>
+                    <option value="3">硕士</option>
+                    <option value="4">博士</option>
+                </select>
+            </label>
+        </div>
+        <button>提交</button>
+    </form>
+</body>
+</html>

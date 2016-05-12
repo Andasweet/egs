@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/userlist.css">
+    <script src="lib/jquery-1.12.3.js"></script>
+    <script src="lib/Underscore.js"></script>
+    <script src="js/userlist.js"></script>
+</head>
+<body>
+    <div class="header">
+        用户注册管理：
+    </div>
+
+    <div class="main">
+        <div class="toolbar">
+            <button class="btn xz" id="newBtn">新增</button>
+            <div class="search">
+                <input id="serIpt" type="text">
+                <button id="searchBtn" class="btn">搜索</button>
+            </div>
+        </div>
+
+        <table class="table-wp">
+            <thead class="thead">              
+                <tr>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                    <th>住址</th>
+                    <th>学历</th>
+                    <th>爱好</th>
+                    <th>设置</th>
+                </tr>
+            </thead>
+            <tbody class="tbody" id="tBody">
+                
+            </tbody>
+        </table>
+
+        <div class="masker-wp" id="maskerWp">
+            <div class="masker"></div>
+            <div class="dialog">
+                <p>
+                    <span>用户注册</span>
+                    <i id="closeBtn">&times;</i>
+                </p>
+
+                <div class="dia-body">
+                    <form>
+                        <input type="hidden" id="uid">
+                        <div>
+                            <label>姓名：<input type="text" id="name"></label>
+                        </div>
+                        <div>
+                            <label>年龄：<input type="text" id="age"></label>
+                        </div>
+                        <div>
+                            <label>手机：<input type="text" id="mobile"></label>
+                        </div>
+                        <div>
+                            <label>性别：
+                                <input type="radio" name="gender" value="男" checked="checked">男
+                                <input type="radio" name="gender" value="女"
+                                >女
+                            </label>
+                        </div> 
+                        <div>
+                            <label>地址：
+                                <textarea id="address"name="address"></textarea>
+                            </label>
+                        </div>
+                        <div>
+                            <label>爱好：
+                                <input type="checkbox" name="hobbies" value="唱歌">唱歌
+                                <input type="checkbox" name="hobbies" value="跳舞">跳舞
+                                <input type="checkbox" name="hobbies" value="旅游">旅游
+                                <input type="checkbox" name="hobbies" value="跑步">跑步
+                                <input type="checkbox" name="hobbies" value="看电影">看电影
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                学历：
+                                <select id="edu" name="edu">
+                                    <option value="请选择">请选择</option>
+                                    <option value="专科">专科</option>
+                                    <option value="本科">本科</option>
+                                    <option value="硕士">硕士</option>
+                                    <option value="博士">博士</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="bot">
+                            <button class="btn" id="qxBtn" type="button">取消</button>
+                            <button class="btn" id="sureBtn" type="button">确认</button>
+                            <button class="btn" id="excBtn" type="button">修改</button>
+                            <input class="btn" type="reset" value="重置" 
+                                    id="reset" style="display:none">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/template" id="trTemplate">
+
+        <tr>
+            <td><%= name %></td>
+            <td><%= age %></td>
+            <td><%= gender %></td>
+            <td><%= mobile %></td>
+            <td><%= address %></td>
+            <td><%= edu %></td>
+            <td><%= hobbies %></td>
+            <td>
+                <button class="btn delBtn" uid=<%= id %>>删除</button>&nbsp
+                <button class="btn updateBtn" uid=<%= id %>>修改</button>
+            </td>
+        </tr>
+
+    </script>
+        
+</body>
+</html>

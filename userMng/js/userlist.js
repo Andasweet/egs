@@ -18,8 +18,15 @@ $(document).ready(function () {
         $('#sureBtn').on('click',onSureExcBtn);
         $('#tBody').on('click','.delBtn',onDelUserBtnClick);
         $('#tBody').on('click','.updateBtn',onUpdateUserBtnClick);
+        $('#pgs-btn').on('click','li', onPageBtnClick);
     };
 
+    var onPageBtnClick = function() {
+        var $this = $(this),
+            currpage = $this.text();
+        console.log(currpage);
+        initTable(currpage-1);
+    };
     var onSerIptKeyup = function(e) {
         // console.log(e.keyCode);
         var kcode = e.keyCode;
@@ -161,65 +168,99 @@ $(document).ready(function () {
         },'json');
     };
 
-    var initTable = function(query) {
+    var renderPage = function(total,param) {
+        var size = param.size,
+            currpage = param.page;
+        var page = Math.ceil(total/size);
+        var html = [
+            '<ul>',
+                '<li>&lt;&lt;</li>',
+                renderLi(page),
+                '<li>&gt;&gt;</li>',
+            '</ul>'
+            ];
+
+        $('#pgs-btn').html(html.join(''));
+
+        function renderLi() {
+            var lis = [];
+            for(var i=0; i<page; i++) {
+                if(i==currpage) {
+                    lis.push('<li class="on">',i+1,'</li>')
+                } else{
+                    lis.push('<li>',i+1,'</li>');
+                }
+            }
+            return lis.join('');
+        }
+
+    }
+
+    var initTable = function(page,query) {
         var url = 'server/userlist.php';
         var param;
+        var page = page||0;
+            param = { size:5, page:page };
+
         if(query){
             param = {query:query};
         };
 
         $.get( url, param, function(response) {
-            // console.log(response);
             if(response.success) {              
                 renderTable(response.data);
+                renderPage(response.total,param);
             }
         },'json');
     }
 
     var renderTable = function(data) {
         var trs = [];
-        var tpl = $('#trTemplate').html();
+        // var tpl = $('#trTemplate').html();
       
         //check
         if(data.length==0) {
             return;
         }
-        _.each(data,function(obj){
-            var compiled = _.template(tpl);
-            trs.push(compiled(obj));
-            cache[obj.id] = obj;
-        })
+        // _.each(data,function(obj){
+        //     var compiled = _.template(tpl);
+        //     trs.push(compiled(obj));
+        //     cache[obj.id] = obj;
+        // })
 
         // console.log(hobbies);
 
-        $('#tBody').html(trs);
+        // $('#tBody').html(trs);
 
-        // $.each(data,function(index, obj) {
-        //     var hobbies = obj.hobbies;
-        //         if(hobbies){
-        //             hobbies = obj.hobbies;
-        //         } else {
-        //             hobbies = '--';
-        //         }
-        //         // console.log(obj);
-        //     trs.push(
-        //         '<tr>',
-        //             '<td>',obj.name,'</td>',
-        //             '<td>',obj.age,'</td>',
-        //             '<td>',obj.gender,'</td>',
-        //             '<td>',obj.mobile,'</td>',
-        //             '<td>',obj.address,'</td>',
-        //             '<td>',obj.edu,'</td>',
-        //             '<td>',hobbies,'</td>',
-        //             '<td>',
-        //                 '<button class="btn delBtn" uid="',obj.id,'">删除</button>&nbsp;',
-        //                 '<button class="btn updateBtn" uid="',obj.id,'">修改</button>',
-        //             '</td>',
-        //         '</tr>'
-        //         );
-        //     cache[obj.id] = obj;
-        // });
-        // $('#tBody').html(trs.join(''));
+        $.each(data,function(index, obj) {
+            var hobbies = obj.hobbies;
+            if(hobbies){
+                hobbies = obj.hobbies;
+            } else {
+                hobbies = '--';
+            }
+                        
+                // console.log(obj);
+            trs.push(
+                '<tr>',
+                    '<td>',index+1,'</td>',
+                    '<td>',obj.name,'</td>',
+                    '<td>',obj.age,'</td>',
+                    '<td>',obj.gender,'</td>',
+                    '<td>',obj.mobile,'</td>',
+                    '<td>',obj.address,'</td>',
+                    '<td>',obj.edu,'</td>',
+                    '<td>',hobbies,'</td>',
+                    '<td>',
+                        '<button class="btn delBtn" uid="',obj.id,'">删除</button>&nbsp;',
+                        '<button class="btn updateBtn" uid="',obj.id,'">修改</button>',
+                    '</td>',
+                '</tr>'
+                );
+            cache[obj.id] = obj;
+        // console.log(index)
+        });
+        $('#tBody').html(trs.join(''));
     };
     
     init();

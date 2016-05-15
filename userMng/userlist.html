@@ -25,6 +25,7 @@
         <table class="table-wp">
             <thead class="thead">              
                 <tr>
+                    <th>序号</th>
                     <th>姓名</th>
                     <th>年龄</th>
                     <th>性别</th>
@@ -106,11 +107,24 @@
             </div>
         </div>
 
+        <div id="pgs-btn" class="page">
+        <!--<ul>
+                <li>&lt;&lt;</li>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>&gt;&gt;</li> 
+            </ul>-->
+        </div>
     </div>
+
 
     <script type="text/template" id="trTemplate">
 
         <tr>
+            <td><%= name %></td>
             <td><%= name %></td>
             <td><%= age %></td>
             <td><%= gender %></td>

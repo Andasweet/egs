@@ -24,7 +24,7 @@ $(document).ready(function () {
     var onPageBtnClick = function() {
         var $this = $(this),
             currpage = $this.text();
-        console.log(currpage);
+        // console.log(currpage);
         initTable(currpage-1);
     };
     var onSerIptKeyup = function(e) {
@@ -39,7 +39,7 @@ $(document).ready(function () {
         var $this = $(this),
             val = $this.parent().find('input').val();
         // if($.trim(val)!==''){
-            initTable($.trim(val));
+            initTable('', $.trim(val));
         // }
     };
 
@@ -200,10 +200,12 @@ $(document).ready(function () {
         var url = 'server/userlist.php';
         var param;
         var page = page||0;
-            param = { size:5, page:page };
+
+        param = { size:5, page:page };
 
         if(query){
             param = {query:query};
+            // $('#pgs-btn').empty();
         };
 
         $.get( url, param, function(response) {

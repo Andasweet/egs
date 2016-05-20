@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var $masker = $('#maskerWp'),
-        cache = {};
-
+        cache = {},
+        useParam;
     var init = function() {
         initTable();
         btnEvent();
@@ -22,13 +22,25 @@ $(document).ready(function () {
     };
 
     var onPageBtnClick = function() {
-        var $this = $(this),
-            currpage = $this.text();
+        var $this = $(this);
         // console.log(currpage);
-        initTable(currpage-1);
+        if($this.hasClass('page-trigger')) {
+            if($this.hasClass('next')) {           
+                initTable(useParam.page+1);
+            } else if($this.hasClass('prev')) {
+                initTable(useParam.page-1);
+            } else if($this.hasClass('first')) {
+                initTable(0);
+            }  else { //注意如何获得total,198行
+                // console.log(useParam.total);
+                initTable(useParam.total-1);
+            } 
+        } else {
+            currpage = $this.text();
+            initTable(currpage-1);
+        }
     };
     var onSerIptKeyup = function(e) {
-        // console.log(e.keyCode);
         var kcode = e.keyCode;
         if(kcode==13) {
             $('#searchBtn').trigger('click');
@@ -174,13 +186,16 @@ $(document).ready(function () {
         var page = Math.ceil(total/size);
         var html = [
             '<ul>',
-                '<li>&lt;&lt;</li>',
+                '<li class="page-trigger first">&lt;&lt;</li>',
+                '<li class="page-trigger prev">&lt;</li>',
                 renderLi(page),
-                '<li>&gt;&gt;</li>',
+                // '<li class="page-trigger next">&gt;</li>',
+                // '<li class="page-trigger last">&gt;&gt;</li>',
             '</ul>'
             ];
 
         $('#pgs-btn').html(html.join(''));
+        useParam.total = page;
 
         function renderLi() {
             var lis = [];
@@ -191,27 +206,30 @@ $(document).ready(function () {
                     lis.push('<li>',i+1,'</li>');
                 }
             }
+            if(currpage<page-1) {
+                lis.push(
+                    '<li class="page-trigger next">&gt;</li>',
+                    '<li class="page-trigger last">&gt;&gt;</li>'
+                );
+            };
             return lis.join('');
         }
-
     }
 
     var initTable = function(page,query) {
         var url = 'server/userlist.php';
-        var param;
         var page = page||0;
 
-        param = { size:5, page:page };
-
-        if(query){
-            param = {query:query};
-            // $('#pgs-btn').empty();
+        useParam = { 
+            size: 5, 
+            page: page,
+            query: query
         };
 
-        $.get( url, param, function(response) {
+        $.get( url, useParam, function(response) {
             if(response.success) {              
                 renderTable(response.data);
-                renderPage(response.total,param);
+                renderPage(response.total,useParam);
             }
         },'json');
     }

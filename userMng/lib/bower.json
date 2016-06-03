@@ -1,0 +1,24 @@
+{
+  "name": "nodejstest",
+  "authors": [
+    "Andasweet <18004591256@163.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.4",
+    "underscore": "^1.8.3",
+    "angular": "angularjs#^1.5.5"
+  }
+}

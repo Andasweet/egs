@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="css/upload.css">
+</head>
+<body>
+    <div class="wp">
+        
+        <div>
+            姓名：
+            <input id="username" name="username" type="text">
+        </div>
+        <div class="pic">
+            头像：
+            <span>
+                上传
+                <form id="iptForm" action="server/upload.php" target="helper" method="post" enctype="multipart/form-data">
+                    <input id="Pic" type="file" name="pic">
+                </form>
+            </span>
+        </div>
+
+        <img id="img" src="">
+
+        <div>
+            <input id="regBtn" type="submit" value="提交">
+        </div>
+    </div>
+
+    <iframe id="helper" name="helper"></iframe>
+    <!-- <form target="helper" action="server/upload.php" method="post" enctype="multipart/form-
+    <data">
+        <input type="file" name="file">
+        <input type="submit">
+    </form>
+    <iframe name="helper"></iframe> -->
+    <script src="lib/jquery-1.12.3.js"></script>
+    <script src="js/upload.js"></script>
+</body>
+</html>

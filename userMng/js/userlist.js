@@ -1,7 +1,8 @@
 $(document).ready(function () {
     var $masker = $('#maskerWp'),
         cache = {},
-        useParam;
+        useParam,
+        srcImg;
     var init = function() {
         initTable();
         btnEvent();
@@ -19,7 +20,24 @@ $(document).ready(function () {
         $('#tBody').on('click','.delBtn',onDelUserBtnClick);
         $('#tBody').on('click','.updateBtn',onUpdateUserBtnClick);
         $('#pgs-btn').on('click','li', onPageBtnClick);
+        $('#pic').on('change', function () {
+            $('#iptForm').submit();
+        })
+        $('#helper').on('load', oniframeOnload);
     };
+
+    var oniframeOnload = function () {
+
+        var response = this.contentWindow.document.body.innerHTML;
+
+        if(!response) return;
+        response = $.parseJSON(response);
+        if(response.success) {
+            $('#tx').attr('src','server/uploadImgs/'+response.fileName);
+            srcImg = response.fileName;
+        }
+
+    }
 
     var onPageBtnClick = function() {
         var $this = $(this);
@@ -75,7 +93,7 @@ $(document).ready(function () {
         $masker.find('#address').val(cache[uid].address);
         $masker.find('#edu').val(cache[uid].edu);
 
-        $masker.find('span').html('用户修改');
+        $masker.find('#zc').html('用户修改');
         $('#sureBtn').hide();
         $('#excBtn').show();
         $masker.show();
@@ -96,7 +114,7 @@ $(document).ready(function () {
 
     var onAddUserBtnClick = function() {
         $('#reset').trigger('click');
-        $masker.find('span').html('用户注册');
+        $masker.find('#zc').html('用户注册');
         $('#excBtn').hide();
         $('#sureBtn').show();
         $masker.show();
@@ -110,6 +128,7 @@ $(document).ready(function () {
             mobileRE = /^1\d{10}$/,
             vaddress = $('#address').val(),
             vedu = $('#edu').val(),
+            vimg = srcImg,
             hobArr = [],
             hobdata = $('input[name=hobbies]:checked');
             // console.log(hobdata)
@@ -117,6 +136,7 @@ $(document).ready(function () {
             $.each(hobdata, function(index,ele) {
                 hobArr.push(ele.value);
             });
+
         param = {
                 id: $('#uid').val(),
                 name: vname,
@@ -125,7 +145,8 @@ $(document).ready(function () {
                 gender: $('input[name=gender]:checked').val(),
                 address: vaddress,
                 edu: vedu,
-                hobbies: hobArr.join('/')
+                hobbies: hobArr.join('/'),
+                img: vimg
             };
         //check;
         if (vname =='') {
@@ -186,8 +207,6 @@ $(document).ready(function () {
         var page = Math.ceil(total/size);
         var html = [
             '<ul>',
-                '<li class="page-trigger first">&lt;&lt;</li>',
-                '<li class="page-trigger prev">&lt;</li>',
                 renderLi(page),
                 // '<li class="page-trigger next">&gt;</li>',
                 // '<li class="page-trigger last">&gt;&gt;</li>',
@@ -198,10 +217,13 @@ $(document).ready(function () {
         useParam.total = page;
 
         function renderLi() {
-            var lis = [];
+            var lis = [
+                '<li class="page-trigger first">&lt;&lt;</li>',
+                '<li class="page-trigger prev">&lt;</li>',
+            ];
             for(var i=0; i<page; i++) {
                 if(i==currpage) {
-                    lis.push('<li class="on">',i+1,'</li>')
+                    lis.push('<li class="on">',i+1,'</li>');
                 } else{
                     lis.push('<li>',i+1,'</li>');
                 }
@@ -212,6 +234,10 @@ $(document).ready(function () {
                     '<li class="page-trigger last">&gt;&gt;</li>'
                 );
             };
+            if(currpage==0) {
+                lis.shift();
+                lis.shift();
+            }
             return lis.join('');
         }
     }
@@ -221,7 +247,7 @@ $(document).ready(function () {
         var page = page||0;
 
         useParam = { 
-            size: 5, 
+            size: 5,
             page: page,
             query: query
         };
@@ -260,7 +286,8 @@ $(document).ready(function () {
                 hobbies = '--';
             }
                         
-                // console.log(obj);
+            console.log(obj);
+
             trs.push(
                 '<tr>',
                     '<td>',index+1,'</td>',
@@ -271,6 +298,8 @@ $(document).ready(function () {
                     '<td>',obj.address,'</td>',
                     '<td>',obj.edu,'</td>',
                     '<td>',hobbies,'</td>',
+                    '<td>','<img src="../userMng/server/uploadImgs/',obj.user_img,'" alt="暂无">',
+                    '</td>',
                     '<td>',
                         '<button class="btn delBtn" uid="',obj.id,'">删除</button>&nbsp;',
                         '<button class="btn updateBtn" uid="',obj.id,'">修改</button>',
@@ -282,6 +311,10 @@ $(document).ready(function () {
         });
         $('#tBody').html(trs.join(''));
     };
+
+    var reset = function() {
+        
+    }
     
     init();
 });

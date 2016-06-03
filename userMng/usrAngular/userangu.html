@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="userAngu.css">
+</head>
+<body ng-app="myApp" ng-controller="myController">
+    
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">用户管理</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">用户列表 <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+        <div class="toolbar">
+            <ul class="nav nav-pills pull-left">
+              <li role="presentation" class="active ml" ng-click=addNewUser()><a>新增用户</a></li>
+              <li role="presentation"><a href="javascript:;"></a></li>
+            </ul>
+
+            <div class="col-lg-3 pull-right">
+                <div class="input-group">
+                  <input type="text" ng-model="query" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="serBtnClick()" type="button">搜索</button>
+                  </span>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped mt">
+            <tr>
+                <th></th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+                <th>电话</th>
+                <th>住址</th>
+                <th>学历</th>
+                <th>爱好</th>
+                <th>头像</th>
+                <th>设置</th>
+            </tr>
+
+            <tr ng-repeat="user in users">
+                <td>{{$index+1}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.age}}</td>
+                <td>{{user.gender}}</td>
+                <td>{{user.mobile}}</td>
+                <td>{{user.address}}</td>
+                <td>{{user.edu}}</td>
+                <td>{{user.hobbies|fmtHobbies}}</td>
+                <td>{{user.user_img}}</td>
+                <td>
+                    <button type="button" class="btn btn-info btn-xs" ng-click = "excBtnClick()">
+                        修改
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click = "delBtnClick()">
+                        删除
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+       <!-- page -->
+        <nav>
+          <ul class="pagination">
+            <li ng-click="firstPageClick()">
+              <a href="javascript:void(0)" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li ng-repeat="tmpPage in pageArr" ng-click="pagingClick()" ng-class="{true:'active'}[$index==page]" >
+                <a href="javascript:void(0)">
+                    {{tmpPage+1}}
+                </a>
+            </li>
+           <!--  <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li> -->
+            <li ng-click="lastPageClick()">
+              <a href="javascript:void(0)" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>   <!--page-->
+
+        <!-- 新增用户对话框 -->
+        <div id="useDialog" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="qxBtnClick()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" ng-model="title">{{title}}</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" >姓名：</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputEmail3" ng-model="user.name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">年龄：</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" ng-model="user.age">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">性别：</label>
+                    <div class="col-sm-10">
+                        <label class="radio-inline">
+                          <input ng-model="user.gender" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="男"> 男
+                        </label>
+                        <label class="radio-inline">
+                          <input ng-model="user.gender" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="女"> 女
+                        </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">电话：</label>
+                    <div class="col-sm-10">
+                      <input ng-model="user.mobile" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">住址：</label>
+                    <div class="col-sm-10">
+                      <input ng-model="user.address" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">爱好：</label>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline">
+                          <input type="checkbox" ng-true-value="'唱歌'"  ng-false-value="" ng-model="user.hobbies.hb1" > 唱歌
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" ng-true-value="'跳舞'"  ng-false-value="" ng-model="user.hobbies.hb2" > 跳舞
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" ng-true-value="'游泳'"  ng-false-value="" ng-model="user.hobbies.hb3" > 游泳
+                        </label>
+                      <!--   <label class="checkbox-inline">
+                          <input type="checkbox" ng-model="user.hobbies"> 跑步
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" ng-model="user.hobbies"> 看电影
+                        </label> -->
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">学历：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-model="user.edu">
+                          <option>请选择</option>
+                          <option>专科</option>
+                          <option>本科</option>
+                          <option>硕士</option>
+                          <option>博士</option>
+                        </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="qxBtnClick()">取消</button>
+                <button type="button" ng-show="!exc" ng-click="sureBtnClick()" class="btn btn-primary">确定</button>
+                <button type="button" ng-show="exc" ng-click="saveExcBtnClick()" class="btn btn-primary">修改</button>
+              </div>
+            </div>
+          </div>
+        </div><!-- 新增用户对话框 -->
+    </div>
+
+    <script src="../lib/jquery-1.12.3.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../lib/js/lib/angular/angular.min.js"></script>
+    <script src="../lib/Underscore.js"></script>
+    <script src="userAngu.js"></script>
+</body>
+</html>

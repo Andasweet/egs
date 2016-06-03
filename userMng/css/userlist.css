@@ -14,7 +14,7 @@ ul,li {
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background-color: pink;
+    background-color: #F7395A;
     text-indent: 20px;
 }
 
@@ -31,7 +31,6 @@ ul,li {
     line-height: 30px;
     background-color: #AE81FF;
     padding: 0px 5px;
-
 }
 
 tr,th,td {
@@ -138,4 +137,39 @@ div.search {
 
 li.on {
     background-color: red;
+}
+
+#upload {
+    display: inline-block;
+    width: 60px;
+    height: 20px;
+    cursor: pointer;
+    line-height: 20px;
+    text-align: center;
+    background-color: #F7395A;
+    border-radius: 3px;
+    position: relative;
+}
+
+#pic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+#tx {
+    float: right;
+    width: 50px;
+    height: 50px;
+}
+
+#helper {
+    display: none;
+}
+
+.sz {
+    width: 100px;
 }
